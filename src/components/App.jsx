@@ -1,5 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 import { Layout } from "./Layout/Layout";
+import HomePage from "pages/HomePage/HomePage";
+import CarsCatalogPage from "pages/CarsCatalogPage/CarsCatalogPage";
+import FavoritesPage from "pages/FavoritesPage/FavoritesPage";
+import NotFound from "pages/NotFound/NotFound";
 
 export const App = () => {
   return (
