@@ -1,32 +1,39 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { selectFavoriteCar } from 'redux/cars/selectors';
+import { addFavorites } from 'redux/cars/slice';
+
+import { useEffect, useState } from 'react';
+import { fetchCars } from 'redux/cars/operations';
+import { selectCars, selectFavoriteCar } from 'redux/cars/selectors';
 import { ModalDetails } from 'components/ModalDetails/ModalDetails';
 import {
-  List,
-  Item,
-  ImgWrapper,
-  Img,
-  IconFavoriteBtn,
-  Svg,
-  DescrWrapper,
   BrandTitle,
-  Price,
-  TagsList,
   Button,
   City,
-} from './FavoritesPage.styled';
-import { useState } from 'react';
-import { deleteFavorites } from 'redux/cars/slice';
+  DescrWrapper,
+  IconFavoriteBtn,
+  Img,
+  ImgWrapper,
+  Item,
+  List,
+  Price,
+  Svg,
+  TagsList,
+} from './CarList.styled';
 
-export default function FavoritesPage() {
-      const [modalOpen, setModalOpen] = useState(false);
+export const CarsList = () => {
+  const [modalOpen, setModalOpen] = useState(false);
   const [currentCar, setCurrentCar] = useState({});
 
   const dispatch = useDispatch();
-  const favoriteCars = useSelector(selectFavoriteCar);
+  const cars = useSelector(selectCars);
+  //   const fav = useSelector(selectFavoriteCar);
+
+  useEffect(() => {
+    dispatch(fetchCars());
+  }, [dispatch]);
 
   const findCarById = carId => {
-    const oneCar = favoriteCars.find(car => car.id.toString().includes(carId));
+    const oneCar = cars.find(car => car.id.toString().includes(carId));
     setCurrentCar(oneCar);
   };
 
@@ -39,14 +46,14 @@ export default function FavoritesPage() {
     setModalOpen(false);
   };
 
-  const handleDeleteFavorites = id => {
-    dispatch(deleteFavorites(id.toString()));
+  const handleAddFavorites = id => {
+    dispatch(addFavorites(id.toString()));
   };
 
   return (
     <>
       <List>
-        {favoriteCars.map(
+        {cars.map(
           ({ id, year, make, model, type, img, description, rentalPrice }) => (
             <Item key={id}>
               <ImgWrapper>
@@ -55,7 +62,7 @@ export default function FavoritesPage() {
                   <Svg
                     width={18}
                     height={18}
-                    onClick={() => handleDeleteFavorites(id)}
+                    onClick={() => handleAddFavorites(id)}
                   />
                 </IconFavoriteBtn>
               </ImgWrapper>
@@ -67,10 +74,10 @@ export default function FavoritesPage() {
               </DescrWrapper>
 
               <TagsList>
-                <li key="23">
+                <li key="2">
                   <City>Kiev</City>
                 </li>
-                <li key="35">
+                <li key="3">
                   <City>Lviv</City>
                 </li>
               </TagsList>
@@ -87,4 +94,4 @@ export default function FavoritesPage() {
       )}
     </>
   );
-}
+};

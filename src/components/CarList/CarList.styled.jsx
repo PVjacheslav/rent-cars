@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import { IoIosHeartEmpty } from 'react-icons/io';
 
 export const List = styled.ul`
@@ -72,7 +72,6 @@ export const TagsList = styled.ul`
   gap: 5px;
   margin-bottom: 28px;
 `;
-
 export const City = styled.p`
   font-weight: 400;
   font-size: 12px;

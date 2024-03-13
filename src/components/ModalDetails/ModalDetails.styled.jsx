@@ -1,30 +1,58 @@
-import styled from "styled-components";
-import { IoIosHeartEmpty } from 'react-icons/io';
+import styled from 'styled-components';
+import { IoClose } from 'react-icons/io5';
 
-export const List = styled.ul`
+export const BackDrop = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 50px 0;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(46, 47, 66, 0.4);
 `;
 
-export const Item = styled.li`
-  width: 274px;
+export const Modal = styled.div`
+  position: absolute;
+  z-index: 20px;
+  border-radius: 24px;
+  width: 541px;
+  height: 752px;
+  background-color: #fff;
+`;
+
+export const ModalContainer = styled.div`
+  padding: 40px;
+  position: relative;
+`;
+
+export const CloseIcon = styled(IoClose)`
+  font-size: 24px;
+  /* color: ; */
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  cursor: pointer;
+  transition: all var(--primary-transition);
+  &:hover {
+    transform: rotate(90deg);
+    /* color: ; */
+  }
 `;
 
 export const ImgWrapper = styled.div`
   position: relative;
+  display: flex;
+  align-items: center;
   border-radius: 14px;
-  width: 274px;
-  height: 268px;
+  height: 248px;
   overflow: hidden;
   margin-bottom: 14px;
 `;
 
-export const Img = styled.img`
-  width: 274px;
-  height: 268px;
-`;
+export const Img = styled.img``;
 
 export const IconFavoriteBtn = styled.button`
   position: absolute;
@@ -36,15 +64,6 @@ export const IconFavoriteBtn = styled.button`
   border: none;
   padding: 0;
   cursor: pointer;
-`;
-
-export const Svg = styled(IoIosHeartEmpty)`
-  width: 18px;
-  height: 18px;
-  color: rgba(255, 255, 255, 0.8);
-  &:hover {
-    fill: blue;
-  }
 `;
 
 export const DescrWrapper = styled.div`
@@ -72,23 +91,9 @@ export const TagsList = styled.ul`
   gap: 5px;
   margin-bottom: 28px;
 `;
-
 export const City = styled.p`
   font-weight: 400;
   font-size: 12px;
   line-height: 1.5;
   color: rgba(18, 20, 23, 0.5);
-`;
-
-export const Button = styled.button`
-  font-family: inherit;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 1.42857;
-  color: #fff;
-  border-radius: 12px;
-  padding: 12px 97px;
-  height: 44px;
-  background: #3470ff;
-  cursor: pointer;
 `;
