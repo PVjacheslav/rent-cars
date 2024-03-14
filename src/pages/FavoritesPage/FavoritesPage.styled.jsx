@@ -1,5 +1,17 @@
 import styled from "styled-components";
-import { IoIosHeartEmpty } from 'react-icons/io';
+import { IoHeartOutline } from 'react-icons/io5';
+import { IoHeartSharp } from 'react-icons/io5';
+
+export const EmptyHeart = styled(IoHeartOutline)`
+  width: 20px;
+  height: 20px;
+  color: rgba(255, 255, 255, 0.8);
+`;
+export const FullHeart = styled(IoHeartSharp)`
+  width: 20px;
+  height: 20px;
+  color: var(--accent-color);
+`;
 
 export const List = styled.ul`
   display: flex;
@@ -22,6 +34,7 @@ export const ImgWrapper = styled.div`
 `;
 
 export const Img = styled.img`
+  object-fit: cover;
   width: 274px;
   height: 268px;
 `;
@@ -30,21 +43,12 @@ export const IconFavoriteBtn = styled.button`
   position: absolute;
   top: 14px;
   right: 14px;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   background-color: transparent;
   border: none;
   padding: 0;
   cursor: pointer;
-`;
-
-export const Svg = styled(IoIosHeartEmpty)`
-  width: 18px;
-  height: 18px;
-  color: rgba(255, 255, 255, 0.8);
-  &:hover {
-    fill: blue;
-  }
 `;
 
 export const DescrWrapper = styled.div`
@@ -85,10 +89,15 @@ export const Button = styled.button`
   font-weight: 600;
   font-size: 14px;
   line-height: 1.42857;
-  color: #fff;
+  color: var(--white-text-color);
   border-radius: 12px;
   padding: 12px 97px;
   height: 44px;
-  background: #3470ff;
+  background-color: var(--accent-color);
   cursor: pointer;
+  transition: all var(--main-transition);
+
+  &:hover {
+    background-color: var(--hover-color);
+  }
 `;

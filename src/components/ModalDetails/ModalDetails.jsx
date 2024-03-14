@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BackDrop, BrandTitle, City, CloseIcon, DescrWrapper, Img, ImgWrapper, Modal, ModalContainer, TagsList } from "./ModalDetails.styled";
+import { Accessories, AccessoriesTitle, BackDrop, BrandTitle, Button, CarDescr, CloseIcon, ConditionsList, ConditionsTitle, DescrWrapper, Img, ImgWrapper, Info, Items, ItemsSpan, Modal, ModalContainer, SpanModel } from "./ModalDetails.styled";
 
 export const ModalDetails = ({ onClose, carInfo }) => {
   const {
@@ -15,7 +15,6 @@ export const ModalDetails = ({ onClose, carInfo }) => {
     accessories,
     functionalities,
     rentalPrice,
-    rentalCompany,
     address,
     rentalConditions,
     mileage,
@@ -39,6 +38,7 @@ export const ModalDetails = ({ onClose, carInfo }) => {
       onClose();
     }
   };
+  
   return (
     <BackDrop onClick={handleCloseOnBackdrop}>
       <Modal>
@@ -49,38 +49,46 @@ export const ModalDetails = ({ onClose, carInfo }) => {
           </ImgWrapper>
           <DescrWrapper>
             <BrandTitle>
-              {make} <span>{model}</span>, {year}
+              {make} <SpanModel>{model}</SpanModel>, {year}
             </BrandTitle>
           </DescrWrapper>
-          <TagsList>
-            <li key="2">
-              <City>Kiev</City>
-            </li>
-            <li key="3">
-              <City>Lviv</City>
-            </li>
-          </TagsList>
+          <Info>
+            {address.split(',')[1]}&ensp;|&ensp;{address.split(',')[2]}
+            &ensp;|&ensp;Id: {id}&ensp;|&ensp;Year: {year}
+            &ensp;|&ensp;Type: {type}
+            &ensp;|&ensp;Fuel Consumption: {fuelConsumption}&ensp;|&ensp;Engine
+            Size: {engineSize}
+          </Info>
 
-          <p>{description}</p>
+          <CarDescr>{description}</CarDescr>
 
-          <h2>Accessories and functionalities:</h2>
-          <TagsList>
-            <li key="5">
-              <City>Accesor</City>
-            </li>
-            <li key="7">
-              <City>function</City>
-            </li>
-          </TagsList>
+          <AccessoriesTitle>Accessories and functionalities:</AccessoriesTitle>
+          <Accessories>
+            {accessories[0]}&ensp;|&ensp;{accessories[1]}&ensp;|&ensp;
+            {functionalities[0]}
+            &ensp;|&ensp;{accessories[2]}&ensp;|&ensp;{functionalities[1]}
+            &ensp;|&ensp;{functionalities[2]}
+          </Accessories>
 
-          <h2>Rental Conditions: </h2>
-          <ul>
-            <li>Minimum age: 25</li>
-            <li>Valid driver’s license</li>
-            <li>Security deposite required </li>
-            <li>Mileage: {mileage}</li>
-            <li>Price: {rentalPrice}</li>
-          </ul>
+          <ConditionsTitle>Rental Conditions: </ConditionsTitle>
+          <ConditionsList>
+            <Items>
+              Minimum age :{' '}
+              <ItemsSpan>
+                {rentalConditions.split('\n')[0].split(':')[1]}
+              </ItemsSpan>
+            </Items>
+            <Items>{rentalConditions.split('\n')[1]}</Items>
+            <Items>{rentalConditions.split('\n')[2]}</Items>
+            <Items>
+              Mileage : <ItemsSpan>{mileage.toLocaleString('en')}</ItemsSpan>
+            </Items>
+            <Items>
+              Price : <ItemsSpan>{rentalPrice}</ItemsSpan>
+            </Items>
+          </ConditionsList>
+
+          <Button href="tel:+380730000000">Rental car</Button>
         </ModalContainer>
       </Modal>
     </BackDrop>

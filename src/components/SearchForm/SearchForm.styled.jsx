@@ -1,5 +1,14 @@
 import { Field } from 'formik';
 import styled from 'styled-components';
+import Select from 'react-select';
+
+export const DropDownBrand = styled(Select)`
+  width: 224px;
+`;
+
+export const DropDownPrice = styled(Select)`
+  width: 125px;
+`;
 
 export const FormWrapper = styled.div`
   display: flex;
@@ -19,7 +28,6 @@ export const Label = styled.label`
 
 export const InputBrand = styled(Field)`
   border-radius: 14px;
-  padding: 14px 89px 14px 18px;
   width: 224px;
   height: 48px;
 `;

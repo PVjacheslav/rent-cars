@@ -1,45 +1,48 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { addFavorites } from 'redux/cars/slice';
-
+import { setId } from 'redux/cars/slice';
 import { useEffect, useState } from 'react';
 import { fetchCars } from 'redux/cars/operations';
-import { selectCars, selectFavoriteCar } from 'redux/cars/selectors';
+import {
+  selectCarById,
+  selectCars,
+  selectFilteredCars,
+} from 'redux/cars/selectors';
 import { ModalDetails } from 'components/ModalDetails/ModalDetails';
 import {
   BrandTitle,
   Button,
-  City,
+  CarInfo,
   DescrWrapper,
+  EmptyHeart,
+  FullHeart,
   IconFavoriteBtn,
   Img,
   ImgWrapper,
   Item,
   List,
   Price,
-  Svg,
-  TagsList,
+  SpanModel,
 } from './CarList.styled';
+import { selectFavorite } from 'redux/favorites/selectors';
+import { addFavorites } from 'redux/favorites/slice';
 
 export const CarsList = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [currentCar, setCurrentCar] = useState({});
+  const [favorite, setFavorite] = useState(false);
 
   const dispatch = useDispatch();
   const cars = useSelector(selectCars);
-  //   const fav = useSelector(selectFavoriteCar);
+  const oneCar = useSelector(selectCarById);
+  const favorites = useSelector(selectFavorite);
+  const filtered = useSelector(selectFilteredCars);
 
   useEffect(() => {
     dispatch(fetchCars());
   }, [dispatch]);
 
-  const findCarById = carId => {
-    const oneCar = cars.find(car => car.id.toString().includes(carId));
-    setCurrentCar(oneCar);
-  };
-
   const handleModalOpen = id => {
     setModalOpen(true);
-    findCarById(id);
+    dispatch(setId(id));
   };
 
   const handleModalClose = () => {
@@ -47,40 +50,53 @@ export const CarsList = () => {
   };
 
   const handleAddFavorites = id => {
-    dispatch(addFavorites(id.toString()));
+    setFavorite(prevState => !prevState);
+    const car = cars.find(car => car.id.toString().includes(id));
+    const isInFavorite = favorites.find(car => car.id.toString().includes(id));
+    if (!isInFavorite) {
+      dispatch(addFavorites(car));
+    }
   };
 
   return (
     <>
       <List>
-        {cars.map(
-          ({ id, year, make, model, type, img, description, rentalPrice }) => (
+        {filtered.map(
+          ({
+            id,
+            year,
+            make,
+            model,
+            img,
+            rentalPrice,
+            rentalCompany,
+            functionalities,
+            address,
+          }) => (
             <Item key={id}>
               <ImgWrapper>
                 <Img src={img} alt={model} />
-                <IconFavoriteBtn type="submit">
-                  <Svg
-                    width={18}
-                    height={18}
-                    onClick={() => handleAddFavorites(id)}
-                  />
+                <IconFavoriteBtn
+                  type="button"
+                  onClick={() => handleAddFavorites(id)}
+                >
+                  {favorite ? <FullHeart /> : <EmptyHeart />}
                 </IconFavoriteBtn>
               </ImgWrapper>
               <DescrWrapper>
                 <BrandTitle>
-                  {make} <span>{model}</span>, {year}
+                  {make} <SpanModel>{model}</SpanModel>, {year}
                 </BrandTitle>
                 <Price>{rentalPrice}</Price>
               </DescrWrapper>
 
-              <TagsList>
-                <li key="2">
-                  <City>Kiev</City>
-                </li>
-                <li key="3">
-                  <City>Lviv</City>
-                </li>
-              </TagsList>
+              <CarInfo>
+                {address.split(',')[1]}&ensp;|&ensp;{address.split(',')[2]}
+                &ensp;|&ensp;{rentalCompany}&ensp;|&ensp;Premium
+                Suv&ensp;|&ensp;{model}
+                &ensp;|&ensp;{id}
+                &ensp;|&ensp;{functionalities[0]}
+              </CarInfo>
 
               <Button type="button" onClick={() => handleModalOpen(id)}>
                 Learn more
@@ -90,7 +106,7 @@ export const CarsList = () => {
         )}
       </List>
       {modalOpen && (
-        <ModalDetails onClose={handleModalClose} carInfo={currentCar} />
+        <ModalDetails onClose={handleModalClose} carInfo={oneCar} />
       )}
     </>
   );

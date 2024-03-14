@@ -1,5 +1,9 @@
-import { Wrapper } from "./HomePage.styled";
+import { Title, Wrapper } from './HomePage.styled';
 
 export default function HomePage() {
-    return <Wrapper>Home Page</Wrapper>
+  return (
+    <Wrapper>
+      <Title>Choose your best car in our company</Title>
+    </Wrapper>
+  );
 }

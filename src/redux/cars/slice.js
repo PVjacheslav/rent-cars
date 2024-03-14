@@ -13,27 +13,23 @@ const carsSlice = createSlice({
   initialState: {
     cars: {
       items: [],
-      favorites: [],
       isLoading: false,
       error: null,
     },
+    id: '',
     filter: '',
   },
 
   reducers: {
-    addFavorites(state, action) {
-      const carById = state.cars.items.find(car =>
-        car.id.toString().includes(action.payload)
-      );
-      state.cars.favorites.push(carById);
+    setId(state, action) {
+      state.id = action.payload;
     },
-    deleteFavorites(state, action) {
-      const updateFavorites = state.cars.favorites.filter(
-        car => car.id.toString() !== action.payload
-      );
-      state.cars.favorites = updateFavorites;
+
+    setFilter(state, action) {
+      state.filter = action.payload;
     },
   },
+
   extraReducers: {
     // pending
     [fetchCars.pending]: handlePending,
@@ -50,6 +46,6 @@ const carsSlice = createSlice({
   },
 });
 
-export const { addFavorites, deleteFavorites } = carsSlice.actions;
+export const { setId, setFilter } = carsSlice.actions;
 
 export const carsReducer = carsSlice.reducer;

@@ -1,47 +1,86 @@
 import { Formik, Form } from 'formik';
 import { useState } from 'react';
-import { FormWrapper, InputBrand, InputPrice, Label, SearchButton } from './SearchForm.styled';
+import {
+  DropDownBrand,
+  DropDownPrice,
+  FormWrapper,
+  Label,
+  SearchButton,
+} from './SearchForm.styled';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFilter } from 'redux/cars/slice';
+import { selectCars } from 'redux/cars/selectors';
+
+const carMakes = [
+  'Buick',
+  'Volvo',
+  'HUMMER',
+  'Subaru',
+  'Mitsubishi',
+  'Nissan',
+  'Lincoln',
+  'GMC',
+  'Hyundai',
+  'MINI',
+  'Bentley',
+  'Mercedes-Benz',
+  'Aston Martin',
+  'Pontiac',
+  'Lamborghini',
+  'Audi',
+  'BMW',
+  'Chevrolet',
+  'Mercedes-Benz',
+  'Chrysler',
+  'Kia',
+  'Land',
+];
 
 export const SearchForm = () => {
-    const [brand, setBrand] = useState('');
-    const [price, setPrice] = useState('');
+  const [brand, setBrand] = useState(null);
+  const [price, setPrice] = useState(null);
 
-    const handleSubmit = () => {
-        console.log(brand);
-    };
-    return (
-        <Formik onSubmit={handleSubmit}>
-            <Form autoComplete="off">
-                <FormWrapper>
-                    <Label htmlFor="color">
-                        Car brand
-                        <InputBrand
-                            as="select"
-                            name="color"
-                            onChange={e => setBrand(e.target.value)}
-                            value={brand}
-                        >
-                            <option value="red">Red</option>
-                            <option value="green">Green</option>
-                            <option value="blue">Blue</option>
-                        </InputBrand>
-                    </Label>
-                    <Label htmlFor="price">
-                        Price/ 1 hour
-                        <InputPrice
-                            as="select"
-                            name="price"
-                            onChange={e => setPrice(e.target.value)}
-                            value={price}
-                        >
-                            <option value="red">Red</option>
-                            <option value="green">Green</option>
-                            <option value="blue">Blue</option>
-                        </InputPrice>
-                    </Label>
-                    <SearchButton type="submit">Search</SearchButton>
-                </FormWrapper>
-            </Form>
-        </Formik>
-    );
+  const dispatch = useDispatch();
+  const cars = useSelector(selectCars);
+
+  const brandOptions = carMakes.map(make => {
+    return { value: make, label: make };
+  });
+  const priceOptions = cars.map(({ rentalPrice }) => {
+    return { value: rentalPrice, label: rentalPrice };
+  });
+
+  const handleSubmit = () => {
+    dispatch(setFilter(brand.value));
+  };
+  return (
+    <Formik
+      initialValues={{ brands: brand, prices: price }}
+      onSubmit={handleSubmit}
+    >
+      <Form autoComplete="off">
+        <FormWrapper>
+          <Label htmlFor="brands">
+            Car brand
+            <DropDownBrand
+              isSearchable
+              onChange={setBrand}
+              options={brandOptions}
+              placeholder="Enter the text"
+            />
+          </Label>
+          <Label htmlFor="prices">
+            Price/ 1 hour
+            <DropDownPrice
+              isSearchable
+              onChange={setPrice}
+              options={priceOptions}
+              placeholder="To $"
+            />
+          </Label>
+          <SearchButton type="submit">Search</SearchButton>
+        </FormWrapper>
+      </Form>
+    </Formik>
+  );
 };

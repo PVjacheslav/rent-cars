@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { selectFavoriteCar } from 'redux/cars/selectors';
+import { selectCarById } from 'redux/cars/selectors';
 import { ModalDetails } from 'components/ModalDetails/ModalDetails';
 import {
   List,
@@ -7,32 +7,31 @@ import {
   ImgWrapper,
   Img,
   IconFavoriteBtn,
-  Svg,
   DescrWrapper,
   BrandTitle,
   Price,
   TagsList,
   Button,
   City,
+  FullHeart,
+  EmptyHeart,
 } from './FavoritesPage.styled';
 import { useState } from 'react';
-import { deleteFavorites } from 'redux/cars/slice';
+import { setId } from 'redux/cars/slice';
+import { selectFavorite } from 'redux/favorites/selectors';
+import { deleteFavorites } from 'redux/favorites/slice';
 
 export default function FavoritesPage() {
-      const [modalOpen, setModalOpen] = useState(false);
-  const [currentCar, setCurrentCar] = useState({});
+  const [modalOpen, setModalOpen] = useState(false);
+  const [favorite, setFavorite] = useState(true);
 
   const dispatch = useDispatch();
-  const favoriteCars = useSelector(selectFavoriteCar);
-
-  const findCarById = carId => {
-    const oneCar = favoriteCars.find(car => car.id.toString().includes(carId));
-    setCurrentCar(oneCar);
-  };
+  const favoriteCars = useSelector(selectFavorite);
+  const oneCar = useSelector(selectCarById);
 
   const handleModalOpen = id => {
     setModalOpen(true);
-    findCarById(id);
+    dispatch(setId(id));
   };
 
   const handleModalClose = () => {
@@ -40,6 +39,7 @@ export default function FavoritesPage() {
   };
 
   const handleDeleteFavorites = id => {
+    setFavorite(false);
     dispatch(deleteFavorites(id.toString()));
   };
 
@@ -51,12 +51,11 @@ export default function FavoritesPage() {
             <Item key={id}>
               <ImgWrapper>
                 <Img src={img} alt={model} />
-                <IconFavoriteBtn type="submit">
-                  <Svg
-                    width={18}
-                    height={18}
-                    onClick={() => handleDeleteFavorites(id)}
-                  />
+                <IconFavoriteBtn
+                  type="submit"
+                  onClick={() => handleDeleteFavorites(id)}
+                >
+                  {favorite ? <FullHeart /> : <EmptyHeart />}
                 </IconFavoriteBtn>
               </ImgWrapper>
               <DescrWrapper>
@@ -83,7 +82,7 @@ export default function FavoritesPage() {
         )}
       </List>
       {modalOpen && (
-        <ModalDetails onClose={handleModalClose} carInfo={currentCar} />
+        <ModalDetails onClose={handleModalClose} carInfo={oneCar} />
       )}
     </>
   );

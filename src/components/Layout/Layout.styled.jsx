@@ -2,6 +2,8 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Header = styled.header`
+display: flex;
+  justify-content: space-between;
   max-width: 375px;
   margin: 0 auto;
   padding: 0 10px;
@@ -12,6 +14,16 @@ export const Header = styled.header`
     padding: 0 50px;
     max-width: 1440px;
   }
+`;
+
+export const LogoLink = styled(NavLink)`
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 1.1;
+  color: var(--accent-color);
+  padding: 20px 0;
+  filter: drop-shadow(1px 1px 1px #3470ff);
 `;
 
 export const Nav = styled.nav`
@@ -27,14 +39,14 @@ export const Link = styled(NavLink)`
   line-height: 1.1;
   color: var(--accent-color);
   padding: 20px 0;
-  transition: var(--main-transition);
+  transition: all var(--main-transition);
   
   &:hover {
-    color: #94B3FF;
+    color: #94b3ff;
   }
   
   &:active {
-    color: #94B3FF;
+    color: #94b3ff;
   }
 `;
 
