@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+// import { configureStore } from '@reduxjs/toolkit';
 import {
   persistStore,
   persistReducer,
@@ -11,6 +11,7 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { carsReducer } from './cars/slice';
+import { configureStore } from '@reduxjs/toolkit';
 
 const carsPersistConfig = {
   key: 'cars',

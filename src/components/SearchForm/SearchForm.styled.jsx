@@ -39,16 +39,22 @@ export const InputPrice = styled(Field)`
   height: 48px;
 `;
 
-export const InputWrapp = styled.div`
+export const InputWrapp = styled.label`
   display: flex;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.3;
+  color: #8a8a89;
+  flex-direction: column;
+  gap: 8px;
 `;
 
 export const InputFrom = styled(Field)`
-  width: 100px;
+  width: 160px;
 `;
 
 export const InputTo = styled(Field)`
-  width: 100px;
+  width: 160px;
 `;
 
 export const SearchButton = styled.button`
