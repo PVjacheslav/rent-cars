@@ -28,8 +28,11 @@ export const CarsList = () => {
     if (brand && car.make !== brand) {
       return false;
     }
-    if (price && car.price > price) {
-      return false;
+    if (price) {
+      const carPrice = parseFloat(car.rentalPrice.replace('$', ''));
+      if (carPrice > parseFloat(price)) {
+        return false;
+      }
     }
     if (from && car.mileage < parseInt(from, 10)) {
       return false;

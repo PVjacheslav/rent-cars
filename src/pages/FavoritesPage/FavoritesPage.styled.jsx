@@ -10,6 +10,7 @@ export const Title = styled.h2`
   line-height: 1.5;
   color: #121417;
   text-align: center;
+  margin-bottom: 30px;
 `;
 
 export const List = styled.ul`

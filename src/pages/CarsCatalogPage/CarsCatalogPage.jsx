@@ -4,7 +4,8 @@ import { CarsList } from 'components/CarList/CarsList';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { fetchCars } from 'redux/cars/operations';
-import { selectCars } from 'redux/cars/selectors';
+import { selectCars, selectIsLoading } from 'redux/cars/selectors';
+import { Loader } from 'components/Loader/Loader';
 
 export default function CarsCatalogPage() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,6 +15,7 @@ export default function CarsCatalogPage() {
 
   const dispatch = useDispatch();
   const cars = useSelector(selectCars);
+  const isLoading = useSelector(selectIsLoading);
 
   useEffect(() => {
     dispatch(fetchCars());
@@ -28,11 +30,17 @@ export default function CarsCatalogPage() {
   return (
     <Wrapper>
       <SearchForm />
-      <CarsList />
-      {cars.length > 0 && (
-        <LoadMoreBtn type="button" onClick={handleLoadMore}>
-          Load more
-        </LoadMoreBtn>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <CarsList />
+          {cars.length > 0 && (
+            <LoadMoreBtn type="button" onClick={handleLoadMore}>
+              Load more
+            </LoadMoreBtn>
+          )}
+        </>
       )}
     </Wrapper>
   );
